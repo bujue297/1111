@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Image gallery</title>
+  <style>
+    h1 {
+      font-family: helvetica, arial, sans-serif;
+      text-align: center;
+    }
+    body {
+      width: 640px;
+      margin: 0 auto;
+    }
+    .full-img {
+      position: relative;
+      display: block;
+      width: 640px;
+      height: 480px;
+      overflow: hidden; /* 防止图片溢出 */
+    }
+    .displayed-img {
+      width: 100%; /* 使图片宽度为100% */
+      height: 100%; /* 使图片高度为100% */
+      object-fit: cover; /* 保持比例 */
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0);
+    }
+    button {
+      border: 0;
+      background: rgba(150,150,150,0.6);
+      text-shadow: 1px 1px 1px white;
+      border: 1px solid #999;
+      position: absolute;
+      cursor: pointer;
+      top: 2px;
+      left: 2px;
+    }
+    .thumb-bar img {
+      display: block;
+      width: 20%;
+      float: left;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Image gallery example</h1>
+  <div class="full-img">
+    <img class="displayed-img" src="https://th.bing.com/th/id/OIP.Fu3lG1o1tu9FPR1khkTuJgHaHa?w=172&h=180&c=7&r=0&o=5&pid=1.7" alt="校徽">
+    <div class="overlay"></div>
+    <button class="dark">Darken</button>
+  </div>
+  <div class="thumb-bar"></div>
+  <script>
+    const displayedImage = document.querySelector('.displayed-img');
+    const thumbBar = document.querySelector('.thumb-bar');
+    const btn = document.querySelector('button');
+    const overlay = document.querySelector('.overlay');
+
+    const images = [
+      'https://th.bing.com/th/id/OIP.Fu3lG1o1tu9FPR1khkTuJgHaHa?w=172&h=180&c=7&r=0&o=5&pid=1.7', 
+      'https://th.bing.com/th/id/OIP.JJY0LjAuRsaaprqvPIKIrwHaEK?w=307&h=180&c=7&r=0&o=5&pid=1.7', 
+      'https://th.bing.com/th/id/OIP.hUR8fumeLCR5tyJoSsjfNwHaEy?w=249&h=180&c=7&r=0&o=5&pid=1.7', 
+      'https://th.bing.com/th/id/OIP.19RlrOFGtvoFCl8_HfXP9wHaD6?w=291&h=180&c=7&r=0&o=5&pid=1.7', 
+      'https://th.bing.com/th/id/OIP.3jeOB7CMVd5Lapk346SDQQHaFe?w=215&h=180&c=7&r=0&o=5&pid=1.7'
+    ];
+    const alts = {
+      'https://th.bing.com/th/id/OIP.Fu3lG1o1tu9FPR1khkTuJgHaHa?w=172&h=180&c=7&r=0&o=5&pid=1.7': '校徽',
+      'https://th.bing.com/th/id/OIP.JJY0LjAuRsaaprqvPIKIrwHaEK?w=307&h=180&c=7&r=0&o=5&pid=1.7': '南华楼',
+      'https://th.bing.com/th/id/OIP.hUR8fumeLCR5tyJoSsjfNwHaEy?w=249&h=180&c=7&r=0&o=5&pid=1.7': '校门（红湘校区）',
+      'https://th.bing.com/th/id/OIP.19RlrOFGtvoFCl8_HfXP9wHaD6?w=291&h=180&c=7&r=0&o=5&pid=1.7': '图书馆',
+      'https://th.bing.com/th/id/OIP.3jeOB7CMVd5Lapk346SDQQHaFe?w=215&h=180&c=7&r=0&o=5&pid=1.7': '雨母楼'
+    };
+    for (const image of images) {
+      const newImage = document.createElement('img');
+      newImage.setAttribute('src', image);
+      newImage.setAttribute('alt', alts[image]);
+      thumbBar.appendChild(newImage);
+      newImage.addEventListener('click', e => {
+        displayedImage.src = e.target.src;
+        displayedImage.alt = e.target.alt;
+      });
+    }
+
+    btn.addEventListener('click', () => {
+      const btnClass = btn.getAttribute('class');
+      if (btnClass === 'dark') {
+        btn.setAttribute('class', 'light');
+        btn.textContent = 'Lighten';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+      } else {
+        btn.setAttribute('class', 'dark');
+        btn.textContent = 'Darken';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0)';
+      }
+    });
+  </script>
+</body>
+</html>
